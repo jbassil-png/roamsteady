@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Wifi, Menu, X, LogOut, User } from "lucide-react";
+import { Wifi, Menu, X, LogOut, User, BarChart3 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,6 +17,7 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useUserRole();
 
   const plans = [
     { name: "Standard", path: "/plans/standard", desc: "2 GB/day high-speed data" },
@@ -82,6 +84,18 @@ const Navigation = () => {
             >
               Contact
             </Link>
+
+            {isAdmin && (
+              <a
+                href="https://roamsteady-dashboard.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors flex items-center gap-1"
+              >
+                <BarChart3 className="h-4 w-4" />
+                Dashboard
+              </a>
+            )}
 
             {user ? (
               <>
@@ -165,6 +179,18 @@ const Navigation = () => {
             >
               Contact
             </Link>
+            {isAdmin && (
+              <a
+                href="https://roamsteady-dashboard.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 py-2 text-sm font-medium text-foreground/80 hover:text-primary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <BarChart3 className="h-4 w-4" />
+                Dashboard
+              </a>
+            )}
             {user && (
               <Link
                 to="/my-reservations"
